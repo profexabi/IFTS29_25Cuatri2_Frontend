@@ -1,0 +1,105 @@
+        /*======================
+            Paleta de colores 
+        ======================*/
+        :root {
+            --azul-aside: #012e58;
+            --azul-fuente: #20385a;
+            --gris-titulo: #f5f5f5;
+        }
+
+        /*======================
+            Estilos generales 
+        ======================*/
+        /* Bordes maquetacion
+        main, aside, div, section, ul, li, h2, h3, h4, img {
+            border: 1px solid;
+        }
+        */
+
+        main {
+            border: 2px solid;
+        }
+
+        body {
+            font-family: monospace;
+            font-size: 11px;
+        }
+
+        main {
+            margin: 0 auto;
+            display: flex;
+            width: 595.28px;
+            height: 841.89px;
+        }
+
+        aside {
+            width: 35%;
+            background-color: var(--azul-aside);
+            color: white;
+        }
+
+        section {
+            width: 65%;
+        }
+
+        aside, section {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        h4, .experiencia-fecha {
+            color: var(--azul-fuente);
+        }
+
+        ul {
+            padding-left: 12px;
+        }
+
+
+        /*===================
+             Aside 
+        ===================*/
+
+        .habilidades-aside {
+            width: 80%;
+        }
+        
+        #fotoCV {
+            width: 75%;
+        }
+
+        #foto-perfil {
+            width: 100%;
+        }
+
+        .habilidades-contact {
+            list-style-type: none;
+            font-size: 9px;
+        }
+
+        .contact-container {
+            padding-left: 0px;
+        }
+
+
+        /*===================
+            Section
+        ===================*/
+
+        #portada, .section-resumen, .section-experiencia {
+            width: 90%;
+        }
+
+        #portada {
+            background-color: var(--gris-titulo);
+            text-align: center;
+        }
+
+        .experiencia-titulo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
