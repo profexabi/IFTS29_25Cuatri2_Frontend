@@ -1,0 +1,22 @@
+:root {
+    --gris-fondo: #1d2a35;
+    --blanco-fuente: #dddddd;
+}
+
+body {
+    background-color: var(--gris-fondo);
+    color: var(--blanco-fuente);
+    font-family: monospace;
+}
+
+.destacado {
+    color: dodgerblue;
+    font-weight: bold;
+    font-size: larger;
+}
+
+#padre, form {
+    border: 2px solid tomato;
+    padding: 10px;
+    margin-top: 10px;
+}
