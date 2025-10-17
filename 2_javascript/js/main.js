@@ -1,278 +1,333 @@
-/*====================================
-    Scope o Ambito
-======================================
-
-El scope o ambito en JavaScript, se refiere al contexto en el cual las variables y las funciones son accesibles y pueden ser referenciadas. Entender el scope es clave para que tengamos un control preciso en nuestro codigo.
-
-
-Global Scope o Ambito Global
-
-    - Todas las variables que declaramos fuera de cualquier funcion o bloque tienen alcance global y son accesibles desde cualquier parte del codigo
-
-
-Local Scope o Function Scope / Alcance local o de Funcion
-    
-    - Las variables declaradas dentro de una funcion solo son accesibles DENTRO de esa funcion. Estas variables tienen un ambito local
-
-
-Block Scope o Ambito de bloque
-
-    - A partir de ES6 (JavaScript moderno), las variables declaradas con let y const tienen alcance de bloque
-    - El alcance de bloque esta limitado por las llaves {} que estan dentro de un if, de un for, etc 
-*/
-
-// Global Scope
-var globalVar = "Soy global";
-
-function mostrarGlobal() {
-    console.log(globalVar);
-}
-
-
-mostrarGlobal();
-console.log(globalVar);
-
-
-// Local Scope
-function mostrarLocal() {
-    var localVar = "Soy local";
-    console.log(localVar);
-}
-
-mostrarLocal();
-// console.log(localVar); // ReferenceError: localVar is not defined
-
-
-
-// Block Scope
-
-if(true) {
-    let bloqueLet = "Soy de bloque";
-    console.log(bloqueLet);
-}
-
-// console.log(bloqueLet); //Uncaught ReferenceError: bloqueLet is not defined
-
-
-
-
-/*==========================
-    Hoisting o Elevacion
-============================
-
-Las declaraciones de variables y de funciones en JavaScript se mueven hacia arriba de su contexto de ejecucion.
-
-- Variables con var: Se elevan y se inicializan con undefined
-
-- Variables let y const: Se elevan pero NO se inicializan, lo que lleva a un error si se accede antes de la declaracion
-*/
-
-console.log(elevadaVar); // undefined
-var elevadaVar = "Soy una var";
-console.log(elevadaVar);
-
-
-// console.log(elevadaLet); // Uncaught ReferenceError: Cannot access 'elevadaLet' before initialization
-let elevadaLet = "Soy una let";
-console.log(elevadaLet);
-
-
-
-
-/*==================================
-    Diferencias var, let y const
-====================================
-
-- var: Tiene ambito de funcion, por lo que si se decalara dentro de una funcion, esta disponible en todo momento dentro de esta. Permite la redeclaracion y la reasignacion
-
-- let: Tiene ambito de bloque {}, no permite la redeclaracion pero si la reasignacion
-
-- const: Tiene ambito de bloque {}, no permite la redeclaracion ni la reasignacion
-*/
-
-
-
-
-/*=================================
-    Funciones en JavaScript
-===================================
-
-Las funciones son bloques de codigo reutilizables que podemos ejecutar cuando las llamamos por su nombre
-- Son fundamentales para la modularidad y la reutilizacion de codigo
-
-*/
-
-function sumarDosYDos() {
-    let resultado = 2 + 2;
-    return resultado; // Como esta la palabra clave return, esta funcion no imprime nada, devuelve el valor
-}
-
-
-console.log(sumarDosYDos()); // Ya que esta funcion tiene return, para verla tiene que ir dentro de un console.log
-
-
-function suma(a, b) { // Los parametros son VARIABLES que definimos en la declaracion de la funcion
-    return a + b;
-}
-
-console.log(suma(5, 6)); // Los argumentos son los VALORES que le pasamos a la funcion cuando la llamamos
-
-
-
-/*=====================================
-    Tipos de funciones en JavaScript
+/* ====================================
+    Objetos Globales en JavaScript
 =======================================
 
-1. Funcion declarada / Named function o Basic function
+El entorno de ejecucion es el lugar donde podemos correr JavaScript. Podemos correrlo en el navegador y en Node.js
 
-- Es la declaracion basica de JavaScript, usa la keyword function
-- Se recomienda para funciones con nombre o cuando se necesite hoisting.
-- Las funciones declaradas con la keyword function se pueden elevar a la parte superior de su ambito. Por lo que podemos llamar a la funcion antes de ser declarada
+El navegador es el Entorno de Ejecucion de JavaScript. Es decir, es donde ejecutamos JavaScript y nos proporciona un motor para interpretar codigo JavaScript, tambien nos proporciona herramientas y facilidades para introducir codigo, depurar, etc
 
-    ciclon();
-
-    function ciclon() {
-        console.log(`Aguante San Lorenzo`);
-    }
+El entorno de ejecucion de JavaScript que veremos despues de frontend. Va a ser Node.js, Express.js sera el framework que trabaja sobre este nuevo entorno de ejecucion.
 
 
-2. Funcion expresada / Function expression
-
-- Es la funcion que esta dentro de una variable
-
-- Son utiles para funciones anonimas, para cuando se quiere controlar donde va a estar disponible la funcion o para cuando va a ser usada como argumento para otra funcion
-
-    const casla = function() {
-        console.log(`Aguante el ciclon`);
-    }
-
-    casla();
-
-
-3. Funcion anonima / Anonymous function
-- No tiene nombre y se usan como callbacks generalmente
-    
-    setTimeout(function() {
-        console.log(`Soy una funcion anonima dentro de una operacion asincronica`)
-    }, 1000);
-
-
-4. Funcion flecha / Arrow function
-- Muy utiles para escribir funciones de una sola linea
-
-const sumarFlecha = (a, b) => a + b;
-
-
-5. Funcion de metodos / Method function
-- Funciones definidas dentro de un objeto o clase
-
-    const persona = {
-    nombre: "Alejo",
-    saludar() {
-        console.log(`Hola, me llamo ${this.nombre}`);
-    }
-}
-
-persona.saludar();
-
-
-// 6. Expresion de funcion ejecutada inmediatamente / IIFE - Immediately Invoked Function Expressions
-- Funciones que se ejecutan inmediatamente despues de haberse definido
-
-(function() {
-    console.log(`Esta es una IIFE`);
-}());
+Los entornos de ejecucion, sea el navegador o sea Node.js, nos proporcionan Objetos Globales.
+Estos son objetos que estan disponibles en todo el entorno de ejecucion sin necesidad de importarlos o declararlos explicitamente. Varian depende del entorno de ejecucion.
+Pero la idea central de los objetos globales es facilitarnos el acceso a ciertas funciones o valores predeterminados
 
 
 
+============================================
+    Objetos globales en el navegador
+============================================
 
-==========================================
-    Tipos de funciones flecha
-==========================================
-// Funcion flecha sin parametros
-const despedirse = () => console.log("Chau nos vemos");
-despedirse();
-
-// Funcion de flecha con un solo parametro
-const cuadrado = x => x * x;
-console.log(cuadrado(5));
-
-// Funcion de flecha con mas de un parametro
-const restar = (a, b) => a - b;
-console.log(restar(5, 3));
+En el entorno del navegador, los objetos globales incluyen todos los objetos estandar de JavaScript (como Array, String, Object, etc), asi como todo un conjunto de objetos especificos para la interaccion con la pagina web y su entorno
 
 
-// Funcion de flecha con mas de una instruccion en la funcion
-const saludarProfe = nombre => {
-    const saludo = `Hola, ${nombre}`
-    return saludo;
-}
+El objeto global principal en el entorno del navegador es window.
+Este objeto representa toda la ventana del navegador y actua como el contenedor global para todas las variables, funciones definidos en el ambito global y estna automaticamente disponibles como propiedaes del objeto window.
 
-console.log(saludarProfe("Gabi"))
+
+Objetos y metodos importantes del objeto window
+
+- document: Representa el DOM de la pagina web actual, permitiendo el acceso y la manipulacion de elementos HTML. El DOM es la representacion en memoria de una pagina HTML y gracias al DOM, podremos manipular la pagina web con JavaScript
+
+
+- alert(), prompt(), confirm(): Metodos que permiten mostrar dialogos al usuario y recoger input
+
+
+- setTimeout() y setInterval(): Metodos para programar la ejecucion de codigo despues de un tiempo (setTimeout) o en intervalos regulares (setInterval)
+
+- location: Proporciona informacion sobre la URL actual de la pagina y permite redireccionar a otras URL
+
+- navigator: Proporciona informacion sobre el navegador, com la version, el agente de usuario y la geolocalizacion
+
+- console: Proporciona acceso a la consola del navegador para mostrar mensajes de depuracion
+
+- history: Proporciona acceso al historia de navegacion del navegador
+
+
+===================================
+    Objetos globales en Node.js
+===================================
+
+En Node.js, el entorno de ejecucion no tiene un objeto window como en los navegadores. En su lugar existen otros objetos globales diseñados para trabajar con servidores, archivos y otros aspectos del Sistema Operativo
+
+- process: Proporciona información y control sobre el proceso de ejecución de Node.js
+
+- __dirname y __filename: Variables globales que contienen la ruta al directorio actual y al archivo actual, respectivamente.
+
+- setTimeout y setInterval: Igual que en los navegadores, estos métodos permiten programar la ejecución de funciones de manera
+asincrónica.
+
+- console: Igual que en el navegador, proporciona acceso a la consola para depuracion y mensajes
 */
 
-// 1. Funcion declarada
-ciclon();
+// location: Proporciona informacion sobre la URL actual de la pagina y permite redireccionar a otras URL
+console.log(window.location.href);
 
-function ciclon() {
-    console.log(`Aguante San Lorenzo`);
+
+// navigator: Proporciona informacion sobre el navegador, com la version, el agente de usuario y la geolocalizacion
+console.log(navigator.userAgent);
+console.log(navigator);
+
+
+// console: Proporciona acceso a la consola del navegador para mostrar mensajes de depuracion
+console.log(console);
+
+
+// history: Proporciona acceso al historia de navegacion del navegador
+console.log(history);
+
+
+
+
+/* ===================================
+    Almacenamiento de datos en JS
+======================================
+
+JavaScript proporciona varios tipos de estructuras para almacenar datos
+
+- Variables simples:    valores unicos como numeros, strings
+- Objetos:              para representar datos complejos con propiedades
+- Arrays:               Para almacenar una serie de elementos, idealmente del mismo tipo
+- Arrays de objetos:    Para manejar listas de elementos complejos que contienen multiples propiedades
+
+
+Cuando usar arrays?
+    - Para listas ordenadas de elementos individuales (lista nombres)
+
+
+Cuando usar objetos?
+    - Cuando deseamos representar una entidad unica con multiples atributos
+    - Cuando sabemos que no habra multiples instancias o copias de estos datos en la aplicacion
+    - Cuando necesitamos acceder a propiedades especificas mediante sus nombre
+
+
+Cuando usar arrays de objetos?
+    - Cuando necesitamos almacenar multiples instancias de una entidad o estructura de datos
+    - Cuando planeamos realizar operaciones sobre una lista de elementos, como iteraciones, filtrados o agrupaciones
+    - Si necesitamos aplicar metodos de arrays como map, filter, reduce, find, etc
+    - Ejs: listado de usuarios, inventario de productos, historial de registros, etc
+
+
+
+========================================================
+    Iteracion en arrays, objetos y arrays de objetos
+========================================================
+
+Iteracion de arrays: Arrays como una lista ordenada de elementos accesibles por indice
+
+Bucle for clasico
+
+    for (let i = 0; i < array.length; i++) {
+        console.log(array[i]);
+    }
+
+    - Maximo control, podemos usar break y continue. Muy eficiente
+    - Como desventajas, mas verboso (mas difil de leer)
+
+
+forEach()
+
+    array.forEach((elemento, índice, arrayOriginal) => {
+        console.log(elemento, índice);
+    });
+
+    - Sintaxis limpia, no necesita contador
+    - Como desventajas, es mas lento y no se puede romper el bucle (break, continue)
+
+
+map()
+    const nuevosValores = array.map(elemento => elemento * 2);
+
+    - Transforma cada elemento
+    - Retorna un nuevo array con los resultados
+
+
+filter()
+    const filtrados = array.filter(elemento => elemento > 10);
+
+    - Selecciona los elementos que cumplan una condicion
+    - Retorna un nuevo array con los elementos filtrados
+
+
+reduce()
+    const suma = array.reduce((total, elemento) => total + elemento, 0);
+
+    - Reduce el array a un unico valor
+    - Retorna el valor acumulado
+
+
+find() y findIndex()
+    const encontrado = array.find(elemento => elemento.id === 123);
+    const indice = array.findIndex(elemento => elemento.id === 123);
+
+    - Buscan el primer elemento que cumpla una condicion
+    - Retorna el elemento -> find o indice -> findIndex (o devuelve undefined o -1 si no lo encuentra)
+
+
+
+for...of
+
+    for (const elemento of array) {
+        console.log(elemento);
+        if (elemento === "stop") {
+            break;
+        }
+    }
+
+    - Proporciona una sintaxis limpia, permite break y continue
+    - No provee indice automatico
+
+
+
+some() y every() 
+    const algunoCumple = array.some(elemento => elemento > 0);
+    const todosCumplen = array.every(elemento => elemento > 0);
+
+    - Verifica si alguno o todos cumplen una condicion
+    - Retorna un booleano
+*/
+
+////////////////////////
+// Bucle for clasico //
+
+// Sumando elementos
+let numeros = [1, 2, 3, 4, 5];
+let suma = 0;
+
+for(let i = 0; i < numeros.length; i++) {
+    suma += numeros[i];
 }
+console.log(suma);
 
+// Buscar elemento
+const frutas = ["manzana", "banana", "naranja"];
 
-// 2. Funcion expresada
-const casla = function() {
-    console.log(`Aguante el ciclon`);
-}
-
-casla();
-
-
-// 3. Funcion anonima
-setTimeout(function() {
-    console.log(`Soy una funcion anonima dentro de una operacion asincronica`)
-}, 1000);
-
-
-// 4. Funcion flecha
-const sumarMuestra = (a, b) => a + b;
-
-
-// 5. Funcion de metodos / Method function
-const persona = {
-    nombre: "Alejo",
-    saludar() {
-        console.log(`Hola, me llamo ${this.nombre}`);
+for (let i = 0; i < frutas.length; i++) {
+    if (frutas[i].startsWith("ban")) {
+        console.log(frutas[i]); // banana
+        break;
     }
 }
 
-persona.saludar();
 
 
-// 6. Expresion de funcion ejecutada inmediatamente / IIFE - Immediately Invoked Function Expressions
-(function() {
-    console.log(`Esta es una IIFE`);
-}());
+// Filtrando objetos
+// Lista ordenada de elementos del mismo tipo
+const productos = [
+    { id: 1, nombre: "laptop", precio: 1000, cantidad: 1, completada: true },
+    { id: 2, nombre: "mouse", precio: 20, cantidad: 2, completada: false },
+    { id: 3, nombre: "teclado", precio: 50, cantidad: 3, completada: true },
+    { id: 4, nombre: "tarjeta grafica", precio: 200, cantidad: 2, completada: true },
+    { id: 5, nombre: "monitor", precio: 100, cantidad: 4, completada: false },
+    { id: 6, nombre: "pendrive", precio: 10, cantidad: 2, completada: false }
+];
 
+console.log(productos.length); // 6
+console.log(productos[2]); // {id: 3, nombre: 'teclado', precio: 50}
+console.log(productos[1].precio); // 20
 
+let productosCaros = [];
 
-
-// Funcion flecha sin parametros
-const despedirse = () => console.log("Chau nos vemos");
-despedirse();
-
-// Funcion de flecha con un solo parametro
-const cuadrado = x => x * x;
-console.log(cuadrado(5));
-
-// Funcion de flecha con mas de un parametro
-const restar = (a, b) => a - b;
-console.log(restar(5, 3));
-
-
-// Funcion de flecha con mas de una instruccion en la funcion
-const saludarProfe = nombre => {
-    const saludo = `Hola, ${nombre}`
-    return saludo;
+for (let i = 0; i < productos.length; i++) {
+    if (productos[i].precio > 100) {
+        productosCaros.push(productos[i]);
+    }
 }
 
-console.log(saludarProfe("Gabi"));
+console.log(productosCaros);
+
+
+
+////////////////////
+// Bucle forEach //
+
+// Imprimos elementos
+let colores = ["rojo", "verde", "azul"];
+
+colores.forEach(color => console.log(color));
+
+
+
+// Modificar array externo
+// let numeros = [1, 2, 3, 4, 5];
+let numerosDobles = [];
+
+numeros.forEach(num => numerosDobles.push(num * 2));
+console.log(numerosDobles);
+
+
+
+
+// Actualizar propiedades
+let estudiantes = [
+    { nombre: "Gricel", nota: 10},
+    { nombre: "Francisco", nota: 9},
+    { nombre: "Mirko", nota: 8},
+    { nombre: "Xabi", nota: 2},
+    { nombre: "Leon", nota: 7},
+    { nombre: "Miguel", nota: 3}
+];
+
+console.log(estudiantes);
+
+/* Recordemos como se agregaban y eliminaban propiedades en un objeto
+
+persona.preferencias = "Backend"; // Agregamos la propiedad preferencias y un valor
+
+delete persona.ciudad; // Eliminamos la propiedad ciudad
+*/
+
+// Crearemos la propiedad aprobado para todos los alumnos que superen el 4
+estudiantes.forEach(estud => {
+
+    estud.aprobado = estud.nota >= 4;
+
+    /* Otra manera de resolver la instruccion de arriba
+
+    if (estud.nota >= 4) {
+        estud.aprobado = true;
+    } else {
+        estud.aprobado = false;
+    }
+    */
+});
+
+
+
+
+//////////
+// map //
+
+// Crear un array de cuadrados
+// let numeros = [1, 2, 3, 4, 5];
+
+let cuadrados = numeros.map(num => num * num);
+console.log(cuadrados);
+
+
+
+// Convertimos a string
+let edades = [23, 20, 33, 30, 25];
+let edadesStr = edades.map(edad => `Tengo ${edad} años`); // "tengo " + edad + " años"
+console.log(edadesStr);
+
+
+
+/* Extraer propiedades
+
+    let estudiantes = [
+        { nombre: "Gricel", nota: 10},
+        { nombre: "Francisco", nota: 9},
+        { nombre: "Mirko", nota: 8},
+        { nombre: "Xabi", nota: 2},
+        { nombre: "Leon", nota: 7},
+        { nombre: "Miguel", nota: 3}
+    ];*/
+
+    let estudNombre = estudiantes.map(estud => estud.nombre);
+    console.log(estudNombre);
+
+// TO DO, vamos a terminar estas HOF, metodos de arrays
+
+// Y de ahi saltamos a JavaScript VI

@@ -20,6 +20,9 @@ Repositorio de la materia Frontend IFTS 29 2025 2o cuatri
 ---
 
 ## JavaScript V / Objetos, objetos globales. Almacenamiento persistente. Iteración en arrays, iteración en objetos e iteración en arrays de objetos
+```js
+
+```
 
 ---
 
