@@ -2,12 +2,101 @@
 Repositorio de la materia Frontend IFTS 29 2025 2o cuatri
 
 ## Notas cursada
-- Repasar rapido JavaScript IV viernes 17
-- Saltar directo a JavaScript
+- **Saltar directos a asincronia**
 
 ---
 
-## JavaScript VII / JSON, asincronia, promesas, fetch, async/await y try/catch
+## JavaScript VIII / JSON, asincronia, promesas, fetch, async/await y try/catch
+
+### Consumiendo recursos de una API Rest, con .then y async/await
+```js
+let contenedorApi = document.getElementById("contenedorApi");
+let contenedorAlbums = document.getElementById("contenedorAlbums");
+
+/*==============================================
+    Consumiendo informacion de una API Rest
+================================================
+
+- Opcion 1: Trabajando con promesas y encadenando con .then() -> Opcion tradicional
+
+- Opcion 2: Utilizando la sintaxis mas moderna para trabajar con promesas, async/await
+
+Consumiremos informacion de esta API Rest publica
+https://jsonplaceholder.typicode.com/
+*/
+
+// Ejemplo de opcion 1: Encadenando promesas con .then()
+// 1. Hacemos una solicitud a esta URL para traer todo el choclo de datos en JSON
+fetch("https://jsonplaceholder.typicode.com/users")
+
+    // 2. Una vez que obtengamos estos datos en JSON (texto plano), los parseamos
+    .then(response => response.json()) // Transformamos este texto plano en objetos JS
+
+    // 3. Una vez que tenemos nuestros dataos procesos, mostramos esta informacion por consola
+    .then(data => {
+        console.log(data); // Estoy mostrando la informacion contenida en esta URL, que nos proporciona la API Rest
+
+        console.table(data); // Tambien puedo mostrarla en formato tabla
+
+        mostrarUsuarios(data);
+    })
+
+    .catch(error => console.error(error));
+
+
+function mostrarUsuarios(array) {
+    let htmlUsuarios = `<ul>`;
+
+    array.forEach(user => {
+        htmlUsuarios += `
+            <li>Usuario: ${user.username}, email: ${user.email}, telefono: ${user.phone}</li>
+        `;
+    })
+
+    htmlUsuarios += `</ul>`; // Llenado toda nuestra nueva lista dinamica de contenido proveniente de la API Rest, pasamos a mostrarlo o renderizarlo
+
+    contenedorApi.innerHTML = htmlUsuarios;
+}
+
+
+// Ejemplo opcion 1: Utilizando una solucion mas moderna, async/await
+async function obtenerAlbumes() {
+    try {
+
+        // Detenemos el codigo con await a la espera de obtener los datos de albums de esta url
+        const response = await fetch("https://jsonplaceholder.typicode.com/albums");
+
+        // Convertimos el texto plano JSON en objetos JavaSript
+        const data = await response.json(); // Esperamos a que esta informacion de arriba se procese a objetos javascript
+
+        // Procesados nuestros datos, secuencialmente gracias a await, podemos mostrarlos por consola
+        console.table(data);
+
+        mostrarAlbums(data);
+
+
+    } catch(error) {
+        console.error("Se produjo un error: ", error);
+    }
+}
+
+function mostrarAlbums(array) {
+    let htmlAlbums = "";
+
+    array.forEach(album => {
+        htmlAlbums += `
+            <ul class="lista-data album">
+                <li>Id: ${album.id}</li>
+                <li>Titulo: ${album.title}</li>
+            </ul>
+        `;
+    })
+
+    contenedorAlbums.innerHTML = htmlAlbums;
+}
+
+obtenerAlbumes();
+```
 
 ---
 
@@ -84,6 +173,154 @@ JavaScript puede
     Objetos y metodos importantes del objeto window
 
     - document: Representa el DOM de la pagina web actual, permitiendo el acceso y la manipulacion de elementos HTML. El DOM es la representacion en memoria de una pagina HTML y gracias al DOM, podremos manipular la pagina web con JavaScript
+
+```js
+/*=============================================
+    Seleccionando elementos en el DOM
+===============================================
+
+getElementById()
+    - Metodo que selecciona un unico elemento por su id. Si no lo encuentra, devuelve null
+    - Solo selecciona el primer elemento que coincida con el id
+*/
+
+// Recomendacion, poner el mismo nombre de variable que el id o clase
+let titulo  = document.getElementById("titulo");
+
+console.log(titulo);
+console.log(titulo.textContent);
+
+/*
+querySelector() y querySelectorAll
+    - querySelector: Selecciona el primer elemento que coincida con un selector CSS (#nombreId, .nombreClase o etiqueta)
+    - querySelectorAll: Selecciona TODOS los elementos que coincidan con el selector CSS
+*/
+
+let mensaje = document.querySelector(".mensaje");
+console.log(mensaje.textContent);
+
+let parrafos = document.querySelectorAll(".mensaje");
+console.log(parrafos); // Devuelve algo parecido a un array, que es una lista de nodos
+
+parrafos.forEach(parrafo => console.log(parrafo.textContent));
+
+
+/*=============================================
+    Modificar contenido y atributos
+===============================================
+
+Una vez seleccionado un elemento, podemos modificar su contenido, atributos o estilo
+
+- textContent(): Modificar el texto dentro de un elemento
+
+- innerHTML: Modificar el contenido HTML dentro de un elemento
+
+- setAttribute(): Modificar los atributos de un elemento
+
+- style: Cambiar el estilo CSS en linea de un elemento
+
+
+Que solemos hacer para la manipulacion del DOM?
+1. Seleccionar elemento
+2. Cambiar su contenido o asignar un evento
+*/
+
+// Seleccionamos el elemento con id parrafo
+let parrafo = document.getElementById("parrafo");
+
+// Cambiar el texto
+parrafo.textContent = "Nuevo texto desde JavaScript";
+
+// Modificar el contenido HTML (incluyendo etiquetas)
+parrafo.innerHTML = `<strong>Nuevo texto en negrita</strong>`;
+
+
+// Seleccionamos el boton por su id #boton
+let boton = document.getElementById("boton");
+
+// Cambiar el atributo id
+boton.setAttribute("id", "nuevoId");
+
+// Cambiar el estilo
+boton.style.backgroundColor = "green";
+boton.style.color = "white";
+boton.style.padding = "5px";
+
+
+/*============================
+    Eventos en JavaScript
+==============================
+
+Un evento es una señal que se envia cuando ocurre una interacción o cambio en el documento, como un click, una pulsacion de tecla, etc.
+
+JavaScript permite escuchar estos eventos y ejecutar funciones específicas cuando ocurren
+
+- Eventos de mouse: click, mouseover, mouseout, mousemove
+
+- Eventos de teclado: keydown, keyup
+
+- Eventos de formulario: submit, change, input, focus
+
+- Eventos de ventana: resize, scroll, load, unload
+*/
+
+let input = document.getElementById("input");
+let texto = document.getElementById("texto");
+let valor = document.getElementById("valor");
+
+
+// Seleccionado nuestro elemento, le asignamos un escuchador de eventos para que responda a los clicks
+input.addEventListener("click", () => {
+    alert("hiciste click, maquina");
+});
+
+// Voy a imprimir por consola el tipo de tecla que estoy pulsando
+
+// El objeto event, que se pasa por parametro aca nos permite acceder a informacion y metodos relacionados con el evento
+texto.addEventListener("keydown", function (event) { 
+    console.log(`Tecla presionada: ${event.key}`);
+    console.log(`Codigo fisico de la tecla: ${event.code}`);
+});
+
+/*  Tecla presionada: 1
+    Codigo fisico de la tecla: Digit1
+    
+    Tecla presionada: 1
+    Codigo fisico de la tecla: Numpad1
+*/
+
+/*================================
+    Propagacion de eventos
+==================================
+
+Los eventos se propagan a traves del DOM en dos fases:
+    - Fase de captura (de arriba hacia abajo)
+    - Fase de burbuja (de abajo hacia arriba)
+
+Podemos detener la propagacion de un evento usando el metodo event.stopPropagation()
+*/
+
+let padre = document.getElementById("padre");
+let hijo = document.getElementById("hijo");
+
+// Escuchar el click en el evento padre
+padre.addEventListener("click", () => {
+    console.log("Se hizo click en el evento padre");
+});
+
+hijo.addEventListener("click", (event) => {
+    event.stopPropagation(); // Para evitar que el elemento hijo propague el evento del padre
+    console.log("Se hizo click en el evento hijo");
+});
+
+
+let miForm = document.getElementById("miForm");
+
+miForm.addEventListener("submit", (event) => {
+    event.preventDefault(); // Prevenimos el envio por defecto del formulario HTML gracias a este metodo
+    alert("Formulario no enviado");
+});
+```
 
 ---
 
