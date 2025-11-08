@@ -102,6 +102,13 @@ obtenerAlbumes();
 
 ## JavaScript VII / High order functions, destructuring, spread operator, closures, funciones anidadas, callbacks, web apis y debug en javascript
 
+#### [Videos cortos / Playlist todocode como funciona la web](https://www.youtube.com/watch?v=lC6JOQLIgp0&list=PLQxX2eiEaqbxx6Ds5bd1F6LZJo7_OnZhV)
+
+#### [Clase 2hs / Procolo HTTP y lenguaje HTML](https://www.youtube.com/watch?v=l6oF_RpBf64)
+```js
+
+```
+
 ---
 
 ## JavaScript VI / Manipulacion del DOM en JavaScript
